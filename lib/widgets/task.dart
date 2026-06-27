@@ -41,9 +41,67 @@ class _TaskState extends State<Task> {
         setState(() {
           _isExpanded = ! _isExpanded;
         });
-      }
+      },
+
+      borderRadius: BorderRadius.circular(10),
+
+
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 20),
+        curve: Curves.easeInOut,
+        margin: EdgeInsets.symmetric(horizontal: 2, vertical: 5),
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: _isExpanded ?
+              (widget.isCompleted? Colors.white : primaryBlue)
+              : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: cardBorderColor,
+          ),
+        ),
+        child: _buildCompactLayout(cardBorderColor, textColor),
+
+
+
+      ),
 
 
     );
   }
+
+
+  //the compact layout
+Widget _buildCompactLayout (Color cardBorderColor, Color textColor){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          widget.title,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color: textColor,
+          ),
+        ),
+        Container(
+            width: 1,
+            height: 24,
+            color: cardBorderColor.withOpacity(0.3),
+          ),
+          const SizedBox(width: 16),
+          Text(
+            widget.time,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: textColor,
+            ),
+          ),
+      ],
+    );
 }
+
+
+}
+
+
