@@ -60,7 +60,7 @@ class _TaskState extends State<Task> {
             color: cardBorderColor,
           ),
         ),
-        child: _buildCompactLayout(cardBorderColor, textColor),
+        child: _buildCompactLayout(cardBorderColor, textColor, widget.isCompleted),
 
 
 
@@ -72,32 +72,48 @@ class _TaskState extends State<Task> {
 
 
   //the compact layout
-Widget _buildCompactLayout (Color cardBorderColor, Color textColor){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          widget.title,
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            color: textColor,
+Widget _buildCompactLayout (Color cardBorderColor, Color textColor, bool isCompleted){
+    return SizedBox(
+      height:30,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              SizedBox(width: 22,),
+              Text(
+                widget.title,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w400,
+                  color: textColor,
+                  decoration: isCompleted? TextDecoration.lineThrough : null
+                ),
+              ),
+            ],
           ),
-        ),
-        Container(
-            width: 1,
-            height: 24,
-            color: cardBorderColor.withOpacity(0.3),
+          Row(
+            children: [
+              VerticalDivider(
+                //width: 10,
+                thickness: 2,
+                color: cardBorderColor,
+              ),
+              SizedBox(width: 25,),
+              Text(
+                widget.time,
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 26,
+                  color: textColor,
+                ),
+              ),
+              SizedBox(width: 25,)
+            ],
           ),
-          const SizedBox(width: 16),
-          Text(
-            widget.time,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          ),
-      ],
+        ],
+      ),
     );
 }
 
