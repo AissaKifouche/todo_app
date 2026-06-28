@@ -60,7 +60,9 @@ class _TaskState extends State<Task> {
             color: cardBorderColor,
           ),
         ),
-        child: _buildCompactLayout(cardBorderColor, textColor, widget.isCompleted),
+        child: _isExpanded?
+            _buildExpandLayout(cardBorderColor, textColor, widget.isCompleted)
+            : _buildCompactLayout(cardBorderColor, textColor, widget.isCompleted),
 
 
 
@@ -72,7 +74,7 @@ class _TaskState extends State<Task> {
 
 
   //the compact layout
-Widget _buildCompactLayout (Color cardBorderColor, Color textColor, bool isCompleted){
+  Widget _buildCompactLayout (Color cardBorderColor, Color textColor, bool isCompleted){
     return SizedBox(
       height:30,
       child: Row(
@@ -115,7 +117,43 @@ Widget _buildCompactLayout (Color cardBorderColor, Color textColor, bool isCompl
         ],
       ),
     );
-}
+  }
+
+
+  Widget _buildExpandLayout(Color cardBorderColor, Color textColor, bool isCompleted){
+    return SizedBox(
+      height: 100,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                widget.title,
+                style: TextStyle(
+                  fontSize: 26,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 10,),
+              Text(
+                widget.description,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          )
+        ],
+
+      ),
+    );
+  }
+
+
 
 
 }
