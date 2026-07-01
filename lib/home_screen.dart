@@ -23,14 +23,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   children: [
                     Task(
                       title: 'task',
-                      description: 'just a task',
+                      description: "just a task",
                       time: '9:00',
                       isCompleted: false,
                     ),
                     Text("gggg")
                   ],
                 )
-            )
+            ),
         ),
       ),
     );

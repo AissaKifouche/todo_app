@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Task extends StatefulWidget {
 
@@ -120,35 +121,106 @@ class _TaskState extends State<Task> {
   }
 
 
+
+  //the expanded view of a task
   Widget _buildExpandLayout(Color cardBorderColor, Color textColor, bool isCompleted){
-    return SizedBox(
-      height: 100,
+
+    //IntrinsicHeight forces its child to be in the height of its highest component or child ..
+    return IntrinsicHeight(
+
+      //the complete row
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+
+          //a column to contain the task title and its description
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              //title
               Text(
                 widget.title,
                 style: TextStyle(
                   fontSize: 26,
-                  color: Colors.white,
+                  color: textColor,
+                  decoration: isCompleted ? TextDecoration.lineThrough : null,
                 ),
               ),
               SizedBox(height: 10,),
+
+              //description
               Text(
                 widget.description,
                 style: TextStyle(
                   fontSize: 18,
-                  color: Colors.white,
+                  color: textColor,
                 ),
               )
             ],
+          ),
+
+          //used another row to contain the divider and time and icons
+          Row(
+            children: [
+
+              //the white divider
+              VerticalDivider(
+                width: 2,
+                thickness: 2,
+                color: textColor,
+              ),
+
+              SizedBox(width: 10,),
+
+              //a column for the time and icons
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+
+                  //time
+                  Text(
+                    widget.time,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 26,
+                    ),
+                  ),
+
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      //the delete icon
+                      IconButton(
+                        onPressed: (){
+
+                        },
+                        icon: isCompleted?
+                              SvgPicture.asset("assests/images/deleteIconCompleted.svg")
+                            : SvgPicture.asset('assests/images/deleteIconNotCompleted.svg'),
+                      ),
+
+                      //the done button
+                      IconButton(
+                        onPressed: (){
+                          
+                        },
+                        icon: isCompleted?
+                              SvgPicture.asset("assests/images/doneButtonCompleted.svg")
+                              : SvgPicture.asset("assests/images/doneButtonNotCompleted.svg"),
+                      )
+                    ],
+                  )
+                ],
+              ),
+
+              SizedBox(width: 10,),
+
+            ],
           )
         ],
-
       ),
     );
   }
