@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/widgets/task.dart';
+import 'package:todo_app/widgets/weekCalendar.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -33,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ),
             ),
             Text(
-              "Wed 1, Jul",
+              DateFormat("MMMM d, yyyy").format(DateTime.now()),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14,
@@ -48,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             onPressed: () {
               
             },
-            icon: SvgPicture.asset("assests/images/filter button.svg"),
+            icon: SvgPicture.asset("assets/images/filter button.svg"),
           )
         ],
         
@@ -58,6 +60,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             child: Center(
                 child: Column(
                   children: [
+
+                    WeekCalendar(),
+
+                    SizedBox(height: 10,),
+
                     Task(
                       title: 'task',
                       description: "just a task",

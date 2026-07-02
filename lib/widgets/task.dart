@@ -198,8 +198,8 @@ class _TaskState extends State<Task> {
 
                         },
                         icon: isCompleted?
-                              SvgPicture.asset("assests/images/deleteIconCompleted.svg")
-                            : SvgPicture.asset('assests/images/deleteIconNotCompleted.svg'),
+                              SvgPicture.asset("assets/images/deleteIconCompleted.svg")
+                            : SvgPicture.asset('assets/images/deleteIconNotCompleted.svg'),
                       ),
 
                       //the done button
@@ -210,8 +210,8 @@ class _TaskState extends State<Task> {
                           });
                         },
                         icon: isCompleted?
-                              SvgPicture.asset("assests/images/doneButtonCompleted.svg")
-                              : SvgPicture.asset("assests/images/doneButtonNotCompleted.svg"),
+                              SvgPicture.asset("assets/images/doneButtonCompleted.svg")
+                              : SvgPicture.asset("assets/images/doneButtonNotCompleted.svg"),
                       )
                     ],
                   )
