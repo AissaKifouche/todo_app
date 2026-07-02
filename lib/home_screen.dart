@@ -70,6 +70,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             ),
         ),
       ),
+      
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+
+        },
+        backgroundColor: Color(0xFFB8D0EF),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 50,
+        ),
+      ),
     );
   }
 
