@@ -8,9 +8,9 @@ class Task extends StatefulWidget {
   final String title;
   final String description;
   final String time;
-  final bool isCompleted;
+  bool isCompleted;
 
-  const Task({
+  Task({
     super.key,
     required this.title,
     required this.description,
@@ -205,7 +205,9 @@ class _TaskState extends State<Task> {
                       //the done button
                       IconButton(
                         onPressed: (){
-                          
+                          setState(() {
+                            widget.isCompleted = !widget.isCompleted;
+                          });
                         },
                         icon: isCompleted?
                               SvgPicture.asset("assests/images/doneButtonCompleted.svg")
