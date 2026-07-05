@@ -39,10 +39,24 @@ class _TimeLineState extends State<TimeLine> {
             left: 24,
             top: 0,
             bottom: 0,
-            child: Container(
-              width: 4,
-              color: lineColor,
-            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    width: 4,
+                    color: lineColor,
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    width: 4,
+                    color: widget.isLast?
+                    Colors.transparent
+                        : lineColor,
+                  ),
+                ),
+              ],
+            )
           ),
 
           Row(
