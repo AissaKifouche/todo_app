@@ -11,7 +11,7 @@ class TaskCard extends StatefulWidget {
   final Task task;
   final VoidCallback onToggleComplete;
 
-  TaskCard({
+  const TaskCard({
     super.key,
     required this.task,
     required this.onToggleComplete,

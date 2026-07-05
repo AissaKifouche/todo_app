@@ -18,13 +18,23 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   DateTime _currentSelectedDate = DateTime.now();
 
+
   //a list to make some tasks to test
   final List<Task> _allTasks = [
-    Task(title: "task1", description: "some shi description", dateTime: DateTime(2026, 7, 4, 17, 20)),
-    Task(title: "task2", description: "description 2 ", dateTime: DateTime(2026, 7, 1, 4, 50)),
+    Task(title: "task1", description: "some shi description", dateTime: DateTime(2026, 7, 5, 17, 20)),
+    Task(title: "task2", description: "description 2 ", dateTime: DateTime(2026, 7, 6, 4, 50)),
     Task(title: "task 3 ", description: "blabla", dateTime: DateTime.now()),
-    Task(title: 'task 4', description: "flflf", dateTime: DateTime(2026, 6, 30, 9, 00))
+    Task(title: 'task 4', description: "flflf", dateTime: DateTime(2026, 7, 10, 9, 00))
   ];
+
+
+  bool isSameDay(DateTime a, DateTime b) => a.day == b.day && a.month == b.month && a.year == b.year;
+
+
+  //the filtered list of the selected date's tasks
+  List<Task> get filteredTasks => _allTasks.where((task) => isSameDay(task.dateTime, _currentSelectedDate)).toList();
+
+
 
 
   @override
@@ -67,22 +77,55 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         ],
         
       ),
-      body: Center(
-        child: SafeArea(
-            child: Center(
-                child: Column(
+      body: SafeArea(
+          child: Column(
                   children: [
 
-                    WeekCalendar(),
+                    WeekCalendar(
+                      onDateSelected: (date) {
+                        setState(() {
+                          _currentSelectedDate = date;
+                        });
+                      },
+                    ),
 
                     SizedBox(height: 10,),
-                    
-                    
+
+                    Expanded(
+                      child: filteredTasks.isEmpty ?
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(
+                              "there is no tasks for this date",
+                              style: TextStyle(
+                                fontSize: 32,
+                                color: Colors.black
+                              ),
+                            ),
+                          ),
+                        )
+                    //if there are tasks :
+                        :ListView.builder(
+                          itemCount: filteredTasks.length,
+                          itemBuilder: (context, index){
+                              final taskItem = filteredTasks[index];
+
+                              return TaskCard(
+                                  task: taskItem,
+                                  onToggleComplete: () {
+                                    setState(() {
+                                      taskItem.isCompleted = !taskItem.isCompleted;
+                                    });
+                                  }
+                              );
+                          },
+                        ),
+                    ),
                   ],
-                )
-            ),
-        ),
-      ),
+                ),
+              ),
+
       
       floatingActionButton: FloatingActionButton(
         onPressed: (){

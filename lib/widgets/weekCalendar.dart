@@ -4,7 +4,10 @@ import 'package:intl/intl.dart';
 import 'calendar_day_capsule.dart';
 
 class WeekCalendar extends StatefulWidget {
-  const WeekCalendar({super.key});
+
+  final ValueChanged<DateTime> onDateSelected;
+
+  const WeekCalendar({super.key, required this.onDateSelected});
 
   @override
   State<WeekCalendar> createState() => _WeekCalendarState();
@@ -52,6 +55,7 @@ class _WeekCalendarState extends State<WeekCalendar> {
                   setState(() {
                     _selectedDate = dateTime;
                   });
+                  widget.onDateSelected(dateTime);
                 },
                 child: CalendarDayCapsule(
                   dayLabel: DateFormat("E").format(dateTime).toUpperCase(),
@@ -66,12 +70,3 @@ class _WeekCalendarState extends State<WeekCalendar> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
