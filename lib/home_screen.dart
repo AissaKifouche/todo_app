@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/widgets/task.dart';
 import 'package:todo_app/widgets/taskCard.dart';
+import 'package:todo_app/widgets/time_line.dart';
 import 'package:todo_app/widgets/weekCalendar.dart';
 
 
@@ -21,9 +22,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   //a list to make some tasks to test
   final List<Task> _allTasks = [
-    Task(title: "task1", description: "some shi description", dateTime: DateTime(2026, 7, 5, 17, 20)),
+    Task(title: "task1\nhh", description: "some shi description", dateTime: DateTime(2026, 7, 5, 17, 20)),
     Task(title: "task2", description: "description 2 ", dateTime: DateTime(2026, 7, 6, 4, 50)),
-    Task(title: "task 3 ", description: "blabla", dateTime: DateTime.now()),
+    Task(title: "task 3 ", description: "blabla\nhvbjkj\njhvu\nhhkb\njjj", dateTime: DateTime.now()),
     Task(title: 'task 4', description: "flflf", dateTime: DateTime(2026, 7, 10, 9, 00))
   ];
 
@@ -111,13 +112,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                           itemBuilder: (context, index){
                               final taskItem = filteredTasks[index];
 
-                              return TaskCard(
-                                  task: taskItem,
-                                  onToggleComplete: () {
-                                    setState(() {
-                                      taskItem.isCompleted = !taskItem.isCompleted;
-                                    });
-                                  }
+                              return TimeLine(
+                                task: taskItem,
+                                isFirst: index == 0,
+                                isLast: index == filteredTasks.length - 1,
+                                onToggleComplete: (){
+                                  setState(() {
+                                    taskItem.isCompleted = !taskItem.isCompleted;
+                                  });
+                                },
                               );
                           },
                         ),

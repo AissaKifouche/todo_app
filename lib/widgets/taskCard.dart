@@ -10,11 +10,13 @@ class TaskCard extends StatefulWidget {
 
   final Task task;
   final VoidCallback onToggleComplete;
+  final ValueChanged<bool> onToggleExpand;
 
   const TaskCard({
     super.key,
     required this.task,
     required this.onToggleComplete,
+    required this.onToggleExpand,
 });
 
 
@@ -47,7 +49,7 @@ class _TaskCardState extends State<TaskCard> {
 
 
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
         margin: EdgeInsets.symmetric(horizontal: 2, vertical: 5),
         padding: EdgeInsets.all(16),
@@ -75,8 +77,7 @@ class _TaskCardState extends State<TaskCard> {
 
   //the compact layout
   Widget _buildCompactLayout (Color cardBorderColor, Color textColor, bool isCompleted){
-    return SizedBox(
-      height:30,
+    return IntrinsicHeight(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -174,7 +175,7 @@ class _TaskCardState extends State<TaskCard> {
 
               //a column for the time and icons
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
 
