@@ -57,7 +57,7 @@ class _TaskCardState extends State<TaskCard> {
           color: _isExpanded ?
               (widget.task.isCompleted? Colors.white : primaryBlue)
               : Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(40),
           border: Border.all(
             color: cardBorderColor,
           ),

@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app/add_task_sheet.dart';
 import 'package:todo_app/widgets/task.dart';
 import 'package:todo_app/widgets/taskCard.dart';
 import 'package:todo_app/widgets/time_line.dart';
@@ -66,73 +69,66 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             )
           ],
         ),
-        
-        //the filter button
-        actions: [
-          IconButton(
-            onPressed: () {
-              
-            },
-            icon: SvgPicture.asset("assets/images/filter button.svg"),
-          )
-        ],
-        
       ),
       body: SafeArea(
-          child: Column(
-                  children: [
+        child: Column(
+          children: [
+             WeekCalendar(
+               onDateSelected: (date) {
+                 setState(() {
+                   _currentSelectedDate = date;
+                 });
+               },
+             ),
 
-                    WeekCalendar(
-                      onDateSelected: (date) {
-                        setState(() {
-                          _currentSelectedDate = date;
-                        });
-                      },
+            SizedBox(height: 10,),
+
+            Expanded(
+              child: filteredTasks.isEmpty ?
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                    "there is no tasks for this date",
+                    style: TextStyle(
+                      fontSize: 32,
+                      color: Colors.black
                     ),
-
-                    SizedBox(height: 10,),
-
-                    Expanded(
-                      child: filteredTasks.isEmpty ?
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text(
-                              "there is no tasks for this date",
-                              style: TextStyle(
-                                fontSize: 32,
-                                color: Colors.black
-                              ),
-                            ),
-                          ),
-                        )
-                    //if there are tasks :
-                        :ListView.builder(
-                          itemCount: filteredTasks.length,
-                          itemBuilder: (context, index){
-                              final taskItem = filteredTasks[index];
-
-                              return TimeLine(
-                                task: taskItem,
-                                isFirst: index == 0,
-                                isLast: index == filteredTasks.length - 1,
-                                onToggleComplete: (){
-                                  setState(() {
-                                    taskItem.isCompleted = !taskItem.isCompleted;
-                                  });
-                                },
-                              );
-                          },
-                        ),
-                    ),
-                  ],
+                  ),
                 ),
+              )
+              //if there are tasks :
+              :ListView.builder(
+                itemCount: filteredTasks.length,
+                itemBuilder: (context, index){
+                  final taskItem = filteredTasks[index];
+                  return TimeLine(
+                    task: taskItem,
+                    isFirst: index == 0,
+                    isLast: index == filteredTasks.length - 1,
+                    onToggleComplete: (){
+                      setState(() {
+                        taskItem.isCompleted = !taskItem.isCompleted;
+                      });
+                    },
+                  );
+                },
               ),
+            ),
+          ],
+        ),
+      ),
 
       
       floatingActionButton: FloatingActionButton(
+        shape: CircleBorder(),
         onPressed: (){
-
+          showModalBottomSheet(
+            context: context,
+            backgroundColor: Color(0xFFFF9FC2F0),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.vertical(top: Radius.circular(30))),
+            builder: (context) => AddTaskSheet(),
+          );
         },
         backgroundColor: Color(0xFFB8D0EF),
         child: Icon(
@@ -143,7 +139,4 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       ),
     );
   }
-
-  
-
 }
