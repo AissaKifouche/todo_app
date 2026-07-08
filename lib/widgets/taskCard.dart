@@ -10,12 +10,14 @@ class TaskCard extends StatefulWidget {
 
   final Task task;
   final VoidCallback onToggleComplete;
+  final VoidCallback onDeleteTask;
   final ValueChanged<bool> onToggleExpand;
 
   const TaskCard({
     super.key,
     required this.task,
     required this.onToggleComplete,
+    required this.onDeleteTask,
     required this.onToggleExpand,
 });
 
@@ -195,7 +197,7 @@ class _TaskCardState extends State<TaskCard> {
                       //the delete icon
                       IconButton(
                         onPressed: (){
-
+                          widget.onDeleteTask();
                         },
                         icon: isCompleted?
                               SvgPicture.asset("assets/images/deleteIconCompleted.svg")

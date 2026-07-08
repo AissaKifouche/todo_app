@@ -6,6 +6,7 @@ class TimeLine extends StatefulWidget {
 
   final Task task;
   final VoidCallback onToggleComplete;
+  final VoidCallback onDeleteTask;
   final bool isFirst, isLast;
 
 
@@ -13,6 +14,7 @@ class TimeLine extends StatefulWidget {
     super.key,
     required this.task,
     required this.onToggleComplete,
+    required this.onDeleteTask,
     required this.isFirst,
     required this.isLast,
   });
@@ -88,6 +90,7 @@ class _TimeLineState extends State<TimeLine> {
                       cardIsExpanded = !cardIsExpanded;
                     });
                   },
+                  onDeleteTask: widget.onDeleteTask,
                 ),
               ),
 

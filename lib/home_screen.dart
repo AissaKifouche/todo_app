@@ -24,12 +24,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
 
   //a list to make some tasks to test
-  final List<Task> _allTasks = [
-    Task(title: "task1\nhh", description: "some shi description", dateTime: DateTime(2026, 7, 5, 17, 20)),
-    Task(title: "task2", description: "description 2 ", dateTime: DateTime(2026, 7, 6, 4, 50)),
-    Task(title: "task 3 ", description: "blabla\nhvbjkj\njhvu\nhhkb\njjj", dateTime: DateTime.now()),
-    Task(title: 'task 4', description: "flflf", dateTime: DateTime(2026, 7, 10, 9, 00))
-  ];
+  final List<Task> _allTasks = [];
 
   void _addNewTask(String title, String description, DateTime dateTime){
     setState(() {
@@ -43,6 +38,34 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     });
   }
 
+
+  //delete a task
+  void _deleteTask(Task task){
+    setState(() {
+      _allTasks.remove(task);
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16)
+        ),
+        content: Text(
+          "${task.title} is deleted"
+        ),
+        behavior: SnackBarBehavior.floating,
+        action: SnackBarAction(
+          label: "Undo",
+          textColor: Colors.white,
+          onPressed: (){
+            setState(() {
+              _allTasks.add(task);
+            });
+          },
+        ),
+      ),
+    );
+  }
 
   bool isSameDay(DateTime a, DateTime b) => a.day == b.day && a.month == b.month && a.year == b.year;
 
@@ -123,6 +146,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         taskItem.isCompleted = !taskItem.isCompleted;
                       });
                     },
+                    onDeleteTask: () => _deleteTask(taskItem),
                   );
                 },
               ),
