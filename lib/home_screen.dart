@@ -125,12 +125,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         onPressed: (){
           showModalBottomSheet(
             context: context,
-            backgroundColor: Color(0xFFFF9FC2F0),
+            backgroundColor: Color(0xFF9FC2F0),
             shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.vertical(top: Radius.circular(30))),
             builder: (context) => AddTaskSheet(),
           );
         },
-        backgroundColor: Color(0xFFB8D0EF),
+        backgroundColor: Color(0xFF9FC2F0),
         child: Icon(
           Icons.add,
           color: Colors.white,
