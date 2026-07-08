@@ -169,26 +169,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             Expanded(
               child: filteredTasks.isEmpty ?
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        "there are no tasks for this date",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey[600]
-                        ),
-                      ),
-                      Text(
-                        "tap the add button in bottom right corner to add a task",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey[600]
-                        ),
-                      ),
-                    ],
+                padding: const EdgeInsets.all(12),
+                child: Text(
+                  "there are no tasks for this date \n tap the add button in bottom right corner to add a task",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey[600]
                   ),
                 ),
               )
