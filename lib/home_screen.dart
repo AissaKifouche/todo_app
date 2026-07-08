@@ -1,14 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/add_task_sheet.dart';
 import 'package:todo_app/widgets/task.dart';
-import 'package:todo_app/widgets/taskCard.dart';
 import 'package:todo_app/widgets/time_line.dart';
 import 'package:todo_app/widgets/weekCalendar.dart';
-
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,8 +20,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   DateTime _currentSelectedDate = DateTime.now();
 
 
-  //a list to make some tasks to test
-  final List<Task> _allTasks = [];
+
 
   void _addNewTask(String title, String description, DateTime dateTime){
     setState(() {
@@ -36,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         )
       );
     });
+    //save the modifications to disk
+    _saveTasks();
   }
 
 
@@ -44,6 +42,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     setState(() {
       _allTasks.remove(task);
     });
+
+    //save modifications to disk
+    _saveTasks();
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -61,15 +62,62 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             setState(() {
               _allTasks.add(task);
             });
+            _saveTasks();
           },
         ),
       ),
     );
   }
 
+
+  //a function to load tasks from disk
+  Future<void> _loadTasks() async{
+    final prefs = await SharedPreferences.getInstance();
+    final String? tasksString = prefs.getString("saved_tasks");
+    
+    if(tasksString != null) {
+      final List<dynamic> decodedList = jsonDecode(tasksString);
+      setState(() {
+        _allTasks.clear();
+        _allTasks.addAll(
+          decodedList.map( (item) => Task.fromJson(item)).toList(),
+        );
+      });
+    }
+  }
+
+  //a function to save tasks into disk
+  Future<void> _saveTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String encodedData = jsonEncode(
+      _allTasks.map((task) => task.toJson()).toList(),
+    );
+    await prefs.setString("saved_tasks", encodedData);
+  }
+
+  void _deleteOldTasks() {
+    int d = DateTime.now().weekday % 7 + 1;
+    setState(() {
+      _allTasks.removeWhere((task) => task.dateTime.isBefore(DateTime.now().subtract(Duration(days: d))));
+    });
+    _saveTasks();
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadTasks();
+    _deleteOldTasks();
+  }
+
+
   bool isSameDay(DateTime a, DateTime b) => a.day == b.day && a.month == b.month && a.year == b.year;
 
 
+  //the list of all tasks loaded from disk
+  final List<Task> _allTasks = [];
   //the filtered list of the selected date's tasks
   List<Task> get filteredTasks => _allTasks.where((task) => isSameDay(task.dateTime, _currentSelectedDate)).toList();
 
@@ -122,13 +170,25 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               child: filteredTasks.isEmpty ?
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(
-                    "there is no tasks for this date",
-                    style: TextStyle(
-                      fontSize: 32,
-                      color: Colors.black
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "there are no tasks for this date",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey[600]
+                        ),
+                      ),
+                      Text(
+                        "tap the add button in bottom right corner to add a task",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[600]
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               )
@@ -145,6 +205,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       setState(() {
                         taskItem.isCompleted = !taskItem.isCompleted;
                       });
+                      _saveTasks();
                     },
                     onDeleteTask: () => _deleteTask(taskItem),
                   );
