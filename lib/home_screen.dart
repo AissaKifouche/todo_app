@@ -31,6 +31,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     Task(title: 'task 4', description: "flflf", dateTime: DateTime(2026, 7, 10, 9, 00))
   ];
 
+  void _addNewTask(String title, String description, DateTime dateTime){
+    setState(() {
+      _allTasks.add(
+        Task(
+          title: title,
+          description: description,
+          dateTime: dateTime,
+        )
+      );
+    });
+  }
+
 
   bool isSameDay(DateTime a, DateTime b) => a.day == b.day && a.month == b.month && a.year == b.year;
 
@@ -127,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             context: context,
             backgroundColor: Color(0xFF9FC2F0),
             shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.vertical(top: Radius.circular(30))),
-            builder: (context) => AddTaskSheet(),
+            builder: (context) => AddTaskSheet(onTaskAdded: _addNewTask,),
           );
         },
         backgroundColor: Color(0xFF9FC2F0),

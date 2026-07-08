@@ -4,7 +4,7 @@
 class Task {
   final String title;
   final String description;
-  bool isCompleted = false ;
+  bool isCompleted ;
   final DateTime dateTime;
 
 
@@ -12,6 +12,7 @@ class Task {
     required this.title,
     required this.description,
     required this.dateTime,
+    this.isCompleted = false,
 });
 
 

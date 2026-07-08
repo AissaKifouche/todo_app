@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 
 
 class AddTaskSheet extends StatefulWidget {
-  const AddTaskSheet({super.key});
+
+  final Function(String title, String description, DateTime dateTime) onTaskAdded;
+
+  const AddTaskSheet({super.key, required this.onTaskAdded});
 
   @override
   State<AddTaskSheet> createState() => _AddTaskSheetState();
@@ -53,7 +56,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
     );
 
     if (picked != null){
-      _dateController.text = "${picked.year} - ${picked.month.toString().padLeft(2, '0')} - ${picked.day}";
+      _dateController.text = "${picked.year} - ${picked.month.toString().padLeft(2, '0')} - ${picked.day.toString().padLeft(2, '0')}";
     }
   }
 
@@ -233,6 +236,8 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
               ),
             ),
 
+            SizedBox(height: 5,),
+
             //add task button
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -244,6 +249,19 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
               ),
               onPressed: (){
                 if(! (_titleController.text.trim().isEmpty || _descriptionController.text.trim().isEmpty || _dateController.text.trim().isEmpty) ){
+
+                  widget.onTaskAdded(
+                    _titleController.text.trim(),
+                    _descriptionController.text.trim(),
+                    DateTime(
+                      int.parse(_dateController.text.substring(0, 4)),
+                      int.parse(_dateController.text.trim().substring(7, 9)),
+                      int.parse(_dateController.text.trim().substring(12)),
+                      int.parse(_timeController.text.trim().substring(0,2)),
+                      int.parse(_timeController.text.trim().substring(3)),
+                    ),
+                  );
+
                   Navigator.pop(context);
                 }
                 else {
@@ -284,6 +302,8 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                 ),
               ),
             ),
+
+            SizedBox(height: 16,),
 
           ],
         ),
