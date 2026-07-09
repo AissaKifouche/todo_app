@@ -29,10 +29,10 @@ class _WeekCalendarState extends State<WeekCalendar> {
   void generateCurrentWeek(){
     final DateTime today = DateTime.now();
 
-    int daysToSubtract = today.weekday % 7;
-    DateTime sunday = today.subtract(Duration(days: daysToSubtract));
+    int daysToSubtract = 3;
+    DateTime firstDay = today.subtract(Duration(days: daysToSubtract));
     _weekDays = List.generate(7,
-        (index) => sunday.add(Duration(days: index))
+        (index) => firstDay.add(Duration(days: index))
     );
   }
 

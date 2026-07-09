@@ -96,9 +96,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   void _deleteOldTasks() {
-    int d = DateTime.now().weekday % 7 + 1;
     setState(() {
-      _allTasks.removeWhere((task) => task.dateTime.isBefore(DateTime.now().subtract(Duration(days: d))));
+      _allTasks.removeWhere((task) => task.dateTime.isBefore(DateTime.now().subtract(Duration(days: 5))));
     });
     _saveTasks();
   }
@@ -119,7 +118,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   //the list of all tasks loaded from disk
   final List<Task> _allTasks = [];
   //the filtered list of the selected date's tasks
-  List<Task> get filteredTasks => _allTasks.where((task) => isSameDay(task.dateTime, _currentSelectedDate)).toList();
+  List<Task> get filteredTasks {
+    return _allTasks
+        .where((task) => isSameDay(task.dateTime, _currentSelectedDate))
+        .toList()
+        ..sort((a, b) => a.dateTime.compareTo(b.dateTime)); //  Sorts early times to late times
+  }
 
 
 

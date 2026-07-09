@@ -30,17 +30,12 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
     super.dispose();
   }
 
-  DateTime maxDateToChoose(){
-    var d = DateTime.now().weekday % 7;
-    return DateTime.now().add(Duration(days: 7 - 1 - d));
-  }
-
   Future<void> _selectDate (BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context:  context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: maxDateToChoose(),
+      lastDate: DateTime.now().add(Duration(days: 3)),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -194,7 +189,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
               onTap: () => _selectTime(context),
               decoration: InputDecoration(
                   label: Text(
-                    "Date",
+                    "Time",
                     style: TextStyle(
                       color: Colors.white,
                     ),
